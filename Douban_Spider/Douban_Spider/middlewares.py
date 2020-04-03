@@ -109,3 +109,6 @@ class RandomUserAgent(object):
         # 随机请求头
         user_agent = random.choice(spider.settings['USER_AGENTS'])
         request.headers['User-Agent'] = user_agent
+
+        # 代理ip
+        # request.meta['proxy'] = 'http://125.110.76.20:9000'

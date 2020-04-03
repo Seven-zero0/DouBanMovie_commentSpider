@@ -12,7 +12,7 @@ from copy import deepcopy
 class DoubanSpider(scrapy.Spider):
     name = 'douban'
     allowed_domains = ['movie.douban.com']
-    start_urls = ['http://movie.douban.com/']
+    start_urls = ['https://movie.douban.com/']
 
     def parse(self, response):
         item = {}
@@ -35,9 +35,10 @@ class DoubanSpider(scrapy.Spider):
         """ 单部电影详情页面 """
         item = response.meta.get('item')    # 取出值
         item['movie_grade'] = response.xpath('//div[@class="rating_wrap clearbox"]/div[2]/strong/text()').extract_first()
-        item['movie_page_href'] = response.xpath("//div[@id='hot-comments']/a/@href").extract_first()
-        item['movie_page_href'] = item['movie_href'] + item['movie_page_href']      # 构建评论页
-        if item['movie_page_href'] is None:
+        try:
+            item['movie_page_href'] = response.xpath("//div[@id='hot-comments']/a/@href").extract_first()
+            item['movie_page_href'] = item['movie_href'] + item['movie_page_href']      # 构建评论页
+        except TypeError as e:
             item['movie_page_href'] = response.xpath("//div[@class='mod-hd']/h2/span[@class='pl']/a/@href").extract_first()
         # 获取评论
         yield scrapy.Request(
