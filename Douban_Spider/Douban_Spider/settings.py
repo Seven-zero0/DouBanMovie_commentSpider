@@ -14,6 +14,12 @@ BOT_NAME = 'Douban_Spider'
 SPIDER_MODULES = ['Douban_Spider.spiders']
 NEWSPIDER_MODULE = 'Douban_Spider.spiders'
 
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+SCHEDULER_PERSIST = True    # 为false Redis关闭了 Redis数据也会被清空
+REDIS_URL = "redis://127.0.0.1:6379"
+
+
 LOG_LEVEL = 'WARNING'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'Douban_Spider (+http://www.yourdomain.com)'
@@ -55,7 +61,7 @@ DEFAULT_REQUEST_HEADERS = {
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'Douban_Spider.middlewares.DoubanSpiderDownloaderMiddleware': 543,
-    'Douban_Spider.middlewares.RandomUserAgent': 544,
+    # 'Douban_Spider.middlewares.RandomUserAgent': 544,
 }
 
 # Enable or disable extensions
@@ -68,6 +74,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'Douban_Spider.pipelines.DoubanSpiderPipeline': 300,
+    'scrapy_redis.pipelines.RedisPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

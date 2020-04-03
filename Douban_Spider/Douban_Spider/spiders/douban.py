@@ -59,10 +59,10 @@ class DoubanSpider(scrapy.Spider):
             yield item
 
         # 评论下一页
-        # next_url = response.xpath("//a[@class='next']/@href").extract_first()
-        # next_url = item['movie_page_href'][:-24] + next_url
-        # yield scrapy.Request(
-        #     url=next_url,
-        #     callback=self.parse_page_url,
-        #     meta={"item":deepcopy(item)}
-        # )
+        next_url = response.xpath("//a[@class='next']/@href").extract_first()
+        next_url = item['movie_page_href'][:-24] + next_url
+        yield scrapy.Request(
+            url=next_url,
+            callback=self.parse_page_url,
+            meta={"item":deepcopy(item)}
+        )
