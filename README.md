@@ -1,4 +1,4 @@
 # DouBanMovie_commentSpider
-scrapy douban电影评论爬虫
+scrapy douban电影评论爬虫保存到MongoDB数据库
 
-没有写保存到数据库(需要的可以自己在pipelines中添加)
+因为爬取的数据比较多，可以添加上代理ip靠谱点儿
